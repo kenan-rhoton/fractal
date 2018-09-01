@@ -1,6 +1,9 @@
 package main
 
-import "github.com/gizak/termui"
+import (
+	"github.com/gizak/termui"
+	"os"
+)
 
 func main() {
 	err := termui.Init()
@@ -13,6 +16,11 @@ func main() {
 		tasks:    NewTask("root"),
 		selected: 0,
 		list:     termui.NewList()}
+
+	if len(os.Args) > 1 {
+		state.Load(os.Args[1])
+	}
+
 	state.Init()
 
 	//termui.UseTheme("helloworld")

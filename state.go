@@ -25,8 +25,14 @@ func (s *State) Add() {
 
 func (s *State) Render() {
 	s.list.Items = s.tasks.TaskList()
+	for i := range s.list.Items {
+		if i == s.selected {
+			s.list.Items[i] = "[" + s.list.Items[i] + "](bg-red)"
+		} else if s.tasks.SubTasks()[i].Completed {
+			s.list.Items[i] = "[" + s.list.Items[i] + "](fg-blue)"
+		}
+	}
 	if s.selected < len(s.list.Items) {
-		s.list.Items[s.selected] = "[" + s.list.Items[s.selected] + "](bg-red)"
 	}
 	s.list.BorderLabel = s.tasks.Name()
 	s.list.Height = termui.TermHeight()
