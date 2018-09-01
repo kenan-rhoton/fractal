@@ -1,18 +1,24 @@
 package main
 
+import "time"
+
 type Task struct {
-	Title     string
-	parent    *Task
-	Children  []*Task
-	Completed bool
+	Title       string
+	parent      *Task
+	Children    []*Task
+	Completed   bool
+	CreatedAt   time.Time
+	CompletedAt time.Time
 }
 
 func NewTask(name string) *Task {
 	return &Task{
-		Title:     name,
-		Children:  make([]*Task, 0),
-		Completed: false,
-		parent:    nil}
+		Title:       name,
+		Children:    make([]*Task, 0),
+		Completed:   false,
+		CreatedAt:   time.Now(),
+		CompletedAt: time.Now(),
+		parent:      nil}
 }
 
 func (t *Task) Rename(name string) {
@@ -47,4 +53,9 @@ func (t *Task) Remove(i int) {
 
 func (t *Task) Parent() *Task {
 	return t.parent
+}
+
+func (t *Task) Complete() {
+	t.Completed = !t.Completed
+	t.CompletedAt = time.Now()
 }

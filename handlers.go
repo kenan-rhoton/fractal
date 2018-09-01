@@ -57,7 +57,7 @@ func (s *State) ResetHandlers() {
 	termui.Handle("/sys/kbd/<space>", func(termui.Event) {
 		subTasks := s.tasks.SubTasks()
 		if len(subTasks) > 0 {
-			subTasks[s.selected].Completed = !subTasks[s.selected].Completed
+			subTasks[s.selected].Complete()
 		}
 		s.Render()
 	})
