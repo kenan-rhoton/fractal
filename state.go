@@ -27,9 +27,9 @@ func (s *State) FormatList() {
 	taskinfo := s.tasks.SubTasks()
 	list := s.tasks.TaskList()
 	for i := range list {
-		list[i] += "- Started " + taskinfo[i].CreatedAt.Format("Jan 2 - 15:04")
+		list[i] += " - Started " + taskinfo[i].CreatedAt.Format("Jan 2 - 15:04")
 		if taskinfo[i].Completed {
-			list[i] += "- Completed " + taskinfo[i].CompletedAt.Format("Jan 2 - 15:04")
+			list[i] += " - Completed " + taskinfo[i].CompletedAt.Format("Jan 2 - 15:04")
 		}
 		if i == s.selected {
 			if taskinfo[i].Completed {
