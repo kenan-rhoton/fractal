@@ -23,17 +23,29 @@ func (s *State) Add() {
 	s.Render()
 }
 
-func (s *State) Render() {
-	s.list.Items = s.tasks.TaskList()
-	for i := range s.list.Items {
+func (s *State) FormatList() {
+	taskinfo := s.tasks.SubTasks()
+	list := s.tasks.TaskList()
+	for i := range list {
+		list[i] += "- Started " + taskinfo[i].CreatedAt.Format("Jan 2 - 15:04")
+		if taskinfo[i].Completed {
+			list[i] += "- Completed " + taskinfo[i].CompletedAt.Format("Jan 2 - 15:04")
+		}
 		if i == s.selected {
-			s.list.Items[i] = "[" + s.list.Items[i] + "](bg-red)"
+			if taskinfo[i].Completed {
+				list[i] = "[" + list[i] + "](bg-blue)"
+			} else {
+				list[i] = "[" + list[i] + "](bg-red)"
+			}
 		} else if s.tasks.SubTasks()[i].Completed {
-			s.list.Items[i] = "[" + s.list.Items[i] + "](fg-blue)"
+			list[i] = "[" + list[i] + "](fg-blue)"
 		}
 	}
-	if s.selected < len(s.list.Items) {
-	}
+	s.list.Items = list
+}
+
+func (s *State) Render() {
+	s.FormatList()
 	s.list.BorderLabel = s.tasks.Name()
 	s.list.Height = termui.TermHeight()
 	s.list.Width = termui.TermWidth()
